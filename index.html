@@ -30,7 +30,7 @@
 
         } else{
 
-          let data = await App.getInfo();
+          let data = await App.getInfo( /* FIELDS IS OPTIONAL */ );
           console.log(data);
           btn.style.display = 'none';
           let img = document.createElement('img');
