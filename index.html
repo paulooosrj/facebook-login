@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+
+  <button class="btn">Facebook Login</button>
+  <div class="response"></div>
+
+  <script src="src/app.js"></script>
+  <script>
+      const fb_app = new FacebookSync('615327272192731').then(async (App) => {
+        
+        const btn = document.querySelector('.btn');
+        const res_div = document.querySelector('.response');
+        const state = await App.status();
+
+        if(state.status !== "connected"){
+
+            btn.addEventListener('click', async function(){
+              let login = await App.login();
+              if(login.status === "connected"){
+                this.innerHTML = 'Logado';
+              };
+            });
+
+        } else{
+
+          let data = await App.getInfo();
+          console.log(data);
+          btn.style.display = 'none';
+          let img = document.createElement('img');
+          img.src = data.images.normal;
+          res_div.appendChild(img);
+          res_div.innerHTML += `
+              <p style="display:flex">Logado como: ${data.name}</p>
+          `;
+
+        }
+
+      });
+  </script>
+</body>
+</html>
